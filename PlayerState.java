@@ -1,8 +1,16 @@
-interface PlayerState {
-    void play(MediaPlayer player);
-    void pause(MediaPlayer player);
-    void stop(MediaPlayer player);
-    void next(MediaPlayer player);
-    void previous(MediaPlayer player);
+abstract class PlayerState {
+    public abstract String getStateName();
+
+    public boolean playing(MediaPlayer mediaPlayer){
+        return false;
+    }
+
+    public boolean stopped(MediaPlayer mediaPlayer){
+        return false;
+    }
+
+    public boolean paused(MediaPlayer mediaPlayer) {
+        return false;
+    }
     String getStateName();
 }

@@ -1,12 +1,17 @@
-class PausedState implements PlayerState {
-    private PausedState() {};
-    private static PausedState instance = new PausedState();
-    public static PausedState getInstance() {
+class SkipState implements PlayerState {
+    private SkipState() {};
+    private static SkipState instance = new SkipState();
+    public static SkipState getInstance() {
         return instance;
     }
 
     public String getStateName() {
-        return "Paused";
+        return "Skip";
+    }
+
+    public boolean paused(MediaPlayer mediaPlayer){
+        mediaPlayer.setState(PausedState.getInstance());
+        return true;
     }
 
     public boolean stopped(MediaPlayer mediaPlayer){
@@ -18,10 +23,4 @@ class PausedState implements PlayerState {
         mediaPlayer.setState(PlayingState.getInstance())
         return true;
     }
-
-    public boolean skip(MediaPlayer mediaPlayer){
-        mediaPlayer.setState(SkipState.getInstance());
-        return true;
-    }
 }
-

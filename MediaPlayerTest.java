@@ -4,71 +4,38 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MediaPlayerTest {
 
-    private MediaPlayer player;
+    MediaPlayer player;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         player = new MediaPlayer();
     }
 
     @Test
-    void testInitialStateIsStopped() {
-        assertEquals("Stopped", player.getCurrentState());
+    public void testMustStopPlayer() {
+        player.setState(PlayingState.getInstance());
+        assertTrue(player.stopped());
+        assertEquals(StoppedState.getInstance(), player.getState());
     }
 
     @Test
-    void testPauseWhenStoppedDoesNothing() {
-        player.pause();
-        assertEquals("Stopped", player.getCurrentState());
+    public void testMustPlayPlayer() {
+        player.setState(PausedState.getInstance());
+        assertTrue(player.playing());
+        assertEquals(PlayingState.getInstance(), player.getState());
     }
 
     @Test
-    void testPlaySetsStateToPlaying() {
-        player.setCurrentTrack("Bohemian Rhapsody - Queen");
-        player.play();
-        assertEquals("Playing", player.getCurrentState());
+    public void testMustPausePlayer() {
+        player.setState(PlayingState.getInstance());
+        assertTrue(player.paused());
+        assertEquals(PausedState.getInstance(), player.getState());
     }
 
     @Test
-    void testNextTrackWhilePlaying() {
-        player.setCurrentTrack("Bohemian Rhapsody - Queen");
-        player.play();
-        player.next();
-        player.setCurrentTrack("Hotel California - Eagles");
-        assertEquals("Playing", player.getCurrentState());
-    }
-
-    @Test
-    void testPausePlayback() {
-        player.setCurrentTrack("Bohemian Rhapsody - Queen");
-        player.play();
-        player.pause();
-        assertEquals("Paused", player.getCurrentState());
-    }
-
-    @Test
-    void testPreviousWhilePaused() {
-        player.setCurrentTrack("Bohemian Rhapsody - Queen");
-        player.play();
-        player.pause();
-        player.previous();
-        assertEquals("Paused", player.getCurrentState());
-    }
-
-    @Test
-    void testResumePlaybackFromPaused() {
-        player.setCurrentTrack("Bohemian Rhapsody - Queen");
-        player.play();
-        player.pause();
-        player.play();
-        assertEquals("Playing", player.getCurrentState());
-    }
-
-    @Test
-    void testStopPlayback() {
-        player.setCurrentTrack("Bohemian Rhapsody - Queen");
-        player.play();
-        player.stop();
-        assertEquals("Stopped", player.getCurrentState());
+    public void testeMustSkipPlayer() {
+        player.setState(PausedState.getInstance());
+        assertTrue(player.skip());
+        assertEquals(SkipState.getInstance(), player.getState());
     }
 }

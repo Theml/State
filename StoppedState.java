@@ -1,32 +1,26 @@
 class StoppedState implements PlayerState {
-    @Override
-    public void play(MediaPlayer player) {
-        System.out.println("Starting playback.");
-        player.setState(new PlayingState());
+    private StoppedState() {};
+    private static StoppedState instance = new StoppedState();
+    public static StoppedState getInstance() {
+        return instance;
     }
 
-    @Override
-    public void pause(MediaPlayer player) {
-        System.out.println("Cannot pause. Nothing is playing.");
-    }
-
-    @Override
-    public void stop(MediaPlayer player) {
-        System.out.println("Already stopped.");
-    }
-
-    @Override
-    public void next(MediaPlayer player) {
-        System.out.println("Cannot skip. Nothing is playing.");
-    }
-
-    @Override
-    public void previous(MediaPlayer player) {
-        System.out.println("Cannot go back. Nothing is playing.");
-    }
-
-    @Override
     public String getStateName() {
         return "Stopped";
+    }
+
+    public boolean paused(MediaPlayer mediaPlayer){
+        mediaPlayer.setState(PausedState.getInstance());
+        return true;
+    }
+
+    public boolean playing(MediaPlayer mediaPlayer){
+        mediaPlayer.setState(PlayingState.getInstance());
+        return true;
+    }
+
+    public boolean skip(MediaPlayer mediaPlayer){
+        mediaPlayer.setState(SkipState.getInstance());
+        return true;
     }
 }
